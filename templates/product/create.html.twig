@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+
+{# {% form_theme formview 'bootstrap_4_layout.html.twig' %} #}
+
+{% block title %}
+	Création d'un produit
+{% endblock %}
+
+{% block body %}
+	<h1>Nouveau produit</h1>
+
+	{{ form_start(formview) }}
+	{{ form_errors(formview) }}
+	<div class="row">
+		<div class="col">
+			{{ form_row(formview.name) }}
+			{{ form_row(formview.price) }}
+
+		</div>
+		<div class="col">
+			{{ form_row(formview.mainPicture) }}
+			{{ form_row(formview.category) }}
+			{{ form_row(formview.shortDescription) }}
+		</div>
+	</div>
+
+	<button class="submit btn btn-primary">
+		<i class="fas fa-save"></i>
+		Enregistrer
+	</button>
+
+	{{ form_end(formview) }}
+
+
+{% endblock %}

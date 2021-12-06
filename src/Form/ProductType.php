@@ -13,9 +13,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ProductType extends AbstractType
 {
@@ -23,20 +24,25 @@ class ProductType extends AbstractType
     {
         $builder->add('name', TextType::class, [
             'label' => 'Nom du produit',
-            'attr' => ['placeholder' => 'Entrez le nom du prodit']
+            'attr' => ['placeholder' => 'Entrez le nom du prodit'],
+            'required' => false
         ])
             ->add('shortDescription', TextareaType::class, [
                 'label' => 'description',
-                'attr' => ['placeholder' => 'Entrez la description du produit']
+                'attr' => ['placeholder' => 'Entrez la description du produit'],
+                'required' => false
+
             ])
             ->add('price', MoneyType::class, [
                 'label' => 'Prix du Prduit en ',
                 'attr' => ['placeholder' => 'Tapez le prix du produit en €'],
-                'divisor' => '100'
+                'divisor' => '100',
+                'required' => false
             ])
             ->add('mainPicture', UrlType::class, [
                 'label' => 'image du produit',
-                'attr' => ['placeholder' => 'Entrez une uRL d\'image']
+                'attr' => ['placeholder' => 'Entrez une uRL d\'image'],
+                'required' => false
             ])
             ->add(
                 'category',

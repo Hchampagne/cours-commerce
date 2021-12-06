@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-
+use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
@@ -14,6 +14,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
+use Symfony\Component\Validator\Constraints\LessThan;
+use Symfony\Component\Validator\Constraints\LessThanOrEqual;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ProductController extends AbstractController
 {
@@ -67,7 +72,7 @@ class ProductController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $product = $form->getData();
             $product->setSlug(strtolower($slugger->slug($product->getName())));
@@ -92,15 +97,17 @@ class ProductController extends AbstractController
     /**
      * @Route("/admin/product/{id}/edit", name="product_edit")
      */
-    public function edit($id, ProductRepository $productRepository, Request $request, EntityManagerInterface $em)
+    public function edit($id, ProductRepository $productRepository, Request $request, EntityManagerInterface $em, ValidatorInterface $validator)
     {
+
         $product = $productRepository->find($id);
 
         $form = $this->createForm(ProductType::class, $product);
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
+
             $em->flush();
 
             return $this->redirectToRoute('product_show', [

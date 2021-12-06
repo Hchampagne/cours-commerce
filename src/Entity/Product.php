@@ -4,6 +4,10 @@ namespace App\Entity;
 
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
@@ -19,16 +23,20 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le champ est obligatoire")
+     * @Assert\Length(min=3, max=255, minMessage="La saisie doit etre de 3 à 255 caractères")
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Notblank(message = "Le prix est obligatoire")
      */
     private $price;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
      */
     private $slug;
 
@@ -39,11 +47,15 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Url(message="La photo principale doit etre une URL valide")
+     * @Assert\NotBlank(message="L'URL de la photo est obligatoire")
      */
     private $mainPicture;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="La description courte est obligatoire")
+     * @Assert\Length(min=20,minMessage="La description courte doit etre de 20 caractères minimum")
      */
     private $shortDescription;
 
@@ -57,7 +69,7 @@ class Product
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -69,7 +81,7 @@ class Product
         return $this->price;
     }
 
-    public function setPrice(int $price): self
+    public function setPrice(?int $price): self
     {
         $this->price = $price;
 
@@ -105,7 +117,7 @@ class Product
         return $this->mainPicture;
     }
 
-    public function setMainPicture(string $mainPicture): self
+    public function setMainPicture(?string $mainPicture): self
     {
         $this->mainPicture = $mainPicture;
 
@@ -117,7 +129,7 @@ class Product
         return $this->shortDescription;
     }
 
-    public function setShortDescription(string $shortDescription): self
+    public function setShortDescription(?string $shortDescription): self
     {
         $this->shortDescription = $shortDescription;
 

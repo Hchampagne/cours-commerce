@@ -16,7 +16,9 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class CategoryController extends AbstractController
 {
-
+    public function renderMenuList()
+    {
+    }
 
 
     /**

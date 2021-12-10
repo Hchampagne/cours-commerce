@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CategoryController extends AbstractController
 {
@@ -49,13 +52,20 @@ class CategoryController extends AbstractController
 
     /**
      * @Route("/admin/category/{id}/edit", name="category_edit")
-     *
+     * 
      */
     public function edit($id, CategoryRepository $categoryRepository, EntityManagerInterface $em, Request $request)
     {
+
         $category = $categoryRepository->find($id);
+
+        if (!$category) {
+            throw new NotFoundHttpException("cette catégorie n'existe pas");
+        }
+
         $form = $this->createForm(CategoryType::class, $category);
 
+        $this->denyAccessUnlessGranted('CAN_EDIT', $category);
 
         $form->handleRequest($request);
 

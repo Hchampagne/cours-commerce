@@ -59,6 +59,11 @@ class CartService
         $this->saveCart($cart);
     }
 
+    public function empty()
+    {
+        $this->saveCart([]);
+    }
+
     // fonction addition d'un article
     public function add(int $id)
     {
@@ -96,6 +101,12 @@ class CartService
     }
 
     // panier
+
+    /**
+     * Undocumented function
+     *
+     * @return CartItem[]
+     */
     public function getDetailedCartItems(): array
     {
         $detailedCart = [];
